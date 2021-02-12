@@ -1,0 +1,20 @@
+version: '3.4'
+
+volumes:
+  cdk-python:
+
+services:
+  cdk:
+    image: gcavalcante8808/aws-cdk-python:latest
+    build: .
+    tty: true
+    stdin_open: true
+    command: ["cdk","diff"]
+    environment:
+      - ${AWS_REGION:-us-east-1}
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - COMMIT_HASH
+    volumes:
+      - cdk-python:/usr/lib/python3.8/site-packages/
+      - .:/usr/src:rw
